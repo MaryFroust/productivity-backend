@@ -68,7 +68,9 @@ const login = async (req, res) => {
             const passwordMatch = await bcrypt.compare(password, foundUser.password)
             if (!passwordMatch) {
                 res.json({ message: "Username or password incorrect." })
+
             } else {
+                console.log(process.env.PRIVATE_JWT_KEY)
                 const token = jwt.sign(
                     {
                         email: foundUser.email,
@@ -85,6 +87,7 @@ const login = async (req, res) => {
             }
         }
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: "Server Error.", error: error.message })
     }
 }

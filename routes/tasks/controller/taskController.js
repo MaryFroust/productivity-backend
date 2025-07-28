@@ -12,16 +12,14 @@ const getAllTasks = async (req, res) => {
 
 async function createTask(req, res){
     try {
-        const { name, year, month, user } = req.body
+        const { name, isDone} = req.body
         
         const newTask = new Task({
             name,
-            year, 
-            month,
-            user
+            isDone
         })
         await newTask.save()
-        res.json({ message: "Task Created.", payload: newTask})
+        res.json({ message: "New Task Created.", payload: newTask})
     } catch (error) {
          res.status(500).json({ message: "Server error.", error: error.message })
     }

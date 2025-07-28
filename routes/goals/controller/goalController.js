@@ -11,9 +11,9 @@ const getAllGoals = async (req, res) => {
 
  const createGoal = async (req, res) => {
     try {
-        const { name, year, month, user } = req.body
+        const { goal, year, month, user } = req.body
         const newGoal = new Goal({
-            name,
+            goal,
             year, 
             month,
             user

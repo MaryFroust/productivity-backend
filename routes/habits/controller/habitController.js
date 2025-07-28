@@ -11,10 +11,10 @@ const getAllHabits = async (req, res) => {
 
  const createHabit = async (req, res) => {
     try {
-        const { name, year, month, user } = req.body
+        const { habit, year, month, user } = req.body
         
         const newHabit = new Habit({
-            name,
+            habit,
             year, 
             month,
             user
@@ -25,6 +25,25 @@ const getAllHabits = async (req, res) => {
          res.status(500).json({ message: "Server error.", error: error.message })
     }
 }
+
+const toggleDay = async (req, res)=>{
+  try {//9
+    const {day, _id} = req.body
+    const foundHabit = await Habit.findById(_id)
+    let newArray
+    if(!foundHabit.daysCompleted.includes(day)){ // [1, 2, 3, 5, 6, 8, 9]
+      newArray = [...foundHabit.daysCompleted, day]
+    }else{
+      //if does exist
+      newArray = foundHabit.daysCompleted.filter(el => el !== day)
+    }
+    foundHabit.daysCompleted = newArray
+    await foundHabit.save()
+  } catch (error) {
+    
+  }
+}
+
 
 const updateHabitById = async (req, res) => {
     console.log("UPDATE!", req.params.id, req.body)
@@ -49,6 +68,7 @@ const deleteHabitById = async (req, res) => {
 module.exports = {
     getAllHabits,
     createHabit,
+    toggleDay,
     updateHabitById,
     deleteHabitById
 }

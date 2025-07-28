@@ -1,16 +1,22 @@
 const mongoose = require('mongoose')
 
 const goalSchema = new mongoose.Schema({
-    name:{
-        type: String
+    goal: {
+        type: String,
+        required: true
     },
-    year:{
+
+    isDone: {
+        type: Boolean,
+        default: false
+    },
+    year: {
         type: Number
     },
-    month:{
+    month: {
         type: Number
     },
-    user:{
+    user: {
         type: mongoose.Schema.ObjectId,
         ref: 'user'
     }

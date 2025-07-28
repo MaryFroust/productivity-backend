@@ -1,15 +1,28 @@
 const mongoose = require('mongoose')
 
 const taskSchema = new mongoose.Schema({
-    name:{
-        type: String
+    task:{
+        type: String,
+        required: true
     },
-    year:{
-        type: Number
+    isDone:{
+        type: Boolean,
+        default: false
     },
-    month:{
-        type: Number
+    date: {
+        type: Date,
+        default : Date.now
     },
+
+
+    // year:{
+    //     type: Number
+    // },
+    // month:{
+    //     type: Number
+    // },
+
+
     user:{
         type: mongoose.Schema.ObjectId,
         ref: 'user'
