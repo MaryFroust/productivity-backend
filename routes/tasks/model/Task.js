@@ -1,31 +1,40 @@
 const mongoose = require('mongoose')
 
 const taskSchema = new mongoose.Schema({
-    task:{
+    name: {
         type: String,
         required: true
     },
-    isDone:{
+    description: {
+        type: String,
+        default: null
+    },
+    status: {
+        type: String,
+        default: "todo",
+        enum: ["todo", "in progress", "on hold", "complete", "stuck"]
+    },
+    priority: {
+        type: String,
+        enum: ["high", "medium", "low", null],
+        default: null
+    },
+    flag:{
         type: Boolean,
         default: false
     },
     date: {
         type: Date,
-        default : Date.now
+        default: Date.now
     },
-
-
-    // year:{
-    //     type: Number
-    // },
-    // month:{
-    //     type: Number
-    // },
-
-
-    user:{
+    dueDate: {
+        type: Date,
+        default: null,
+    },
+    user: {
         type: mongoose.Schema.ObjectId,
-        ref: 'user'
+        ref: 'user',
+        required: true
     }
 })
 

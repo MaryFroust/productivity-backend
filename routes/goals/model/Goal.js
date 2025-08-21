@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const goalSchema = new mongoose.Schema({
-    goal: {
+    name: {
         type: String,
         required: true
     },
