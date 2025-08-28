@@ -9,19 +9,34 @@ const getAllGoals = async (req, res) => {
     }
 }
 
- const createGoal = async (req, res) => {
+const createGoal = async (req, res) => {
     try {
-        const { goal, year, month, user } = req.body
+        const { id } = res.locals.decodedJwt
+        const {
+            name,
+            startDate,
+            endDate,
+            actionPlan,
+            obstacles,
+            solutions,
+            notes,
+            why, 
+        } = req.body
         const newGoal = new Goal({
-            goal,
-            year, 
-            month,
-            user
+            name,
+            user: id,
+            startDate,
+            endDate,
+            actionPlan,
+            obstacles,
+            solutions,
+            notes,
+            why
         })
         await newGoal.save()
-        res.json({ message: "Goal Created.", payload: newGoal})
+        res.json({ message: "New Goal Created.", payload: newGoal })
     } catch (error) {
-         res.status(500).json({ message: "Error while creating goals.", error: error.message })
+        res.status(500).json({ message: "Error while creating goals.", error: error.message })
     }
 }
 

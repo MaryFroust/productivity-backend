@@ -19,10 +19,10 @@ const taskSchema = new mongoose.Schema({
         enum: ["high", "medium", "low", null],
         default: null
     },
-    flag:{
-        type: Boolean,
-        default: false
-    },
+    // flag:{
+    //     type: Boolean,
+    //     default: false
+    // },
     date: {
         type: Date,
         default: Date.now

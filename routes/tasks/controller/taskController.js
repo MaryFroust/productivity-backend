@@ -76,15 +76,35 @@ const createTask = async (req, res) => {
 }
 
 const updateTaskById = async (req, res) => {
-    console.log("UPDATE!", req.params.id, req.body)
     try {
-        const updateTaskList = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true })
-        console.log(updateTaskList)
-        res.json({ message: "Task List Updated.", payload: updateTaskList })
+        const { dueDate, ...rest } = req.body;
+
+        // Only modify if dueDate exists
+        let parsedDueDate = null;
+        // if (dueDate) {
+        //     parsedDueDate = new Date(dueDate + 'T00:00:00'); // Force local midnight
+        //     parsedDueDate = new Date(dueDate); // ✅ works for both ISO and raw date strings        
+        // }
+         if (dueDate) {
+            const localDate = new Date(dueDate);
+            localDate.setHours(0, 0, 0, 0); // ✅ Force local midnight
+            parsedDueDate = localDate;
+        }
+        const updatedTask = await Task.findByIdAndUpdate(
+            req.params.id,
+            { ...rest, dueDate: parsedDueDate },
+            { new: true }
+        );
+        res.json({ message: "Task List Updated.", payload: updatedTask });
     } catch (error) {
-        res.status(500).json({ message: "Error while updating tasks.", error: error.message })
+        console.error("Error while updating tasks:", error);
+        res.status(500).json({ message: "Error while updating tasks.", error: error.message });
     }
-}
+};
+
+
+
+
 
 const deleteTaskById = async (req, res) => {
     try {
@@ -94,6 +114,8 @@ const deleteTaskById = async (req, res) => {
         res.status(500).json({ message: "Error while deleting tasks.", error: error.message })
     }
 }
+
+// console.log("Saving dueDate as:", editDueDate);
 
 
 module.exports = {
